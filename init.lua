@@ -20,7 +20,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.undofile = true
-vim.opt.undodir = "~/.vim/undo"
+vim.opt.wrap = false
 
 vim.g.mapleader = " "
 
@@ -59,8 +59,16 @@ require("lazy").setup({
     end,
   },
 
+  {
+    'Wansmer/treesj',
+    keys = { "<space>m", "<space>j", "<space>s" },
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    opts = {},
+  },
+
   { "windwp/nvim-autopairs",    opts = {} },
   { "ethanholz/nvim-lastplace", opts = {} },
+  { "mbbill/undotree" },
 
   {
     'nvim-telescope/telescope.nvim',
@@ -71,6 +79,11 @@ require("lazy").setup({
     'stevearc/oil.nvim',
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
+  },
+
+  {
+    "kdheepak/lazygit.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
   },
 
   {
@@ -125,10 +138,14 @@ vim.keymap.set("n", "<tab>", ":bn<cr>", { silent = true })
 vim.keymap.set("n", "<s-tab>", ":bp<cr>", { silent = true })
 vim.keymap.set("n", "<leader>x", ":bd<cr>", { silent = true })
 
+vim.keymap.set("n", "<leader>u", ":UndotreeToggle<cr>")
+
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files<cr>")
 vim.keymap.set("n", "<leader>fb", ":Telescope buffers<cr>")
 vim.keymap.set("n", "<leader>fm", ":Telescope man_pages<cr>")
 vim.keymap.set("n", "<leader>o", ":Oil<cr>")
+
+vim.keymap.set("n", "<leader>g", ":LazyGit<cr>")
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
