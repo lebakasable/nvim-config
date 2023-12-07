@@ -63,6 +63,11 @@ require("lazy").setup({
   { "ethanholz/nvim-lastplace", opts = {} },
 
   {
+    'nvim-telescope/telescope.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
+
+  {
     'stevearc/oil.nvim',
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
@@ -120,6 +125,9 @@ vim.keymap.set("n", "<tab>", ":bn<cr>", { silent = true })
 vim.keymap.set("n", "<s-tab>", ":bp<cr>", { silent = true })
 vim.keymap.set("n", "<leader>x", ":bd<cr>", { silent = true })
 
+vim.keymap.set("n", "<leader>ff", ":Telescope find_files<cr>")
+vim.keymap.set("n", "<leader>fb", ":Telescope buffers<cr>")
+vim.keymap.set("n", "<leader>fm", ":Telescope man_pages<cr>")
 vim.keymap.set("n", "<leader>o", ":Oil<cr>")
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
