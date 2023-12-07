@@ -53,9 +53,8 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     config = function()
       require('nvim-treesitter.configs').setup({
-        indent = {
-          enable = true
-        }
+        highlight = { enable = true },
+        indent = { enable = true }
       })
     end,
   },
@@ -82,10 +81,7 @@ require("lazy").setup({
     opts = {},
   },
 
-  {
-    "kdheepak/lazygit.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
-  },
+  "tpope/vim-fugitive",
 
   {
     "williamboman/mason.nvim",
@@ -146,7 +142,7 @@ vim.keymap.set("n", "<leader>fb", ":Telescope buffers<cr>")
 vim.keymap.set("n", "<leader>fm", ":Telescope man_pages<cr>")
 vim.keymap.set("n", "<leader>o", ":Oil<cr>")
 
-vim.keymap.set("n", "<leader>g", ":LazyGit<cr>")
+vim.keymap.set("n", "<leader>gs", ":Git<cr>")
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
@@ -178,3 +174,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, opts)
   end,
 })
+
+vim.cmd [[
+augroup highlight_yank
+  autocmd!
+  au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
+augroup END
+]]
