@@ -129,6 +129,9 @@ require("lazy").setup({
   "Exafunction/codeium.vim",
 })
 
+vim.keymap.set("v", "<a-down>", ":m '>+1<cr>gv=gv")
+vim.keymap.set("v", "<a-up>", ":m '<-2<cr>gv=gv")
+
 vim.keymap.set("n", "U", "<c-r>")
 vim.keymap.set("n", "<esc>", ":noh<cr>", { silent = true })
 vim.keymap.set("n", "<tab>", ":bn<cr>", { silent = true })
