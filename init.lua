@@ -50,6 +50,10 @@ require("lazy").setup({
   },
 
   {
+    "DanilaMihailov/beacon.nvim",
+  },
+
+  {
     "nvim-treesitter/nvim-treesitter",
     config = function()
       require('nvim-treesitter.configs').setup({
@@ -131,6 +135,11 @@ require("lazy").setup({
 
 vim.keymap.set("v", "<a-down>", ":m '>+1<cr>gv=gv")
 vim.keymap.set("v", "<a-up>", ":m '<-2<cr>gv=gv")
+vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "<c-d>", "<c-d>zz")
+vim.keymap.set("n", "<c-u>", "<c-u>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "U", "<c-r>")
 vim.keymap.set("n", "<esc>", ":noh<cr>", { silent = true })
