@@ -1,196 +1,132 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.opt.clipboard = "unnamedplus"
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.signcolumn = "yes"
-vim.opt.cursorline = true
-vim.opt.scrolloff = 5
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.expandtab = true
-vim.opt.undofile = true
-vim.opt.wrap = false
+local opt = vim.opt
 
-vim.g.mapleader = " "
+opt.wrap = false
+opt.number = true
+opt.relativenumber = true
+opt.cursorline = true
+opt.expandtab = true
+opt.shiftwidth = 2
+opt.tabstop = 2
+opt.smartindent = true
+opt.scrolloff = 5
+opt.undofile = true
+vim.opt.fillchars = { eob = ' ' }
 
-require("lazy").setup({
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme "catppuccin"
-    end,
-  },
+vim.g.mapleader = ' '
 
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    config = function()
-      require("evil_lualine")
-    end,
-  },
+require('lazy').setup({
+  { 'ethanholz/nvim-lastplace', opts = {} },
+
+	{ 
+		'catppuccin/nvim',
+    name = 'catppuccin',
+		opts = { transparent_background = true },
+	},
 
   {
-    "akinsho/bufferline.nvim",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    opts = {},
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {
+      options = { 
+        component_separators = { left = '', right = '' } ,
+        section_separators = { left = '', right = '' } ,
+      },
+      sections = {
+        lualine_x = { 'filetype' },
+      },
+    },
   },
+
+  { 'junegunn/fzf' },
+  { 'junegunn/fzf.vim' },
 
   {
-    "DanilaMihailov/beacon.nvim",
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {}
   },
 
-  {
-    "nvim-treesitter/nvim-treesitter",
-    config = function()
-      require('nvim-treesitter.configs').setup({
-        highlight = { enable = true },
-        indent = { enable = true }
-      })
-    end,
-  },
+  { 'tpope/vim-fugitive' },
+  { 'stevearc/oil.nvim', opts = {} },
 
-  {
-    'Wansmer/treesj',
-    keys = { "<space>m", "<space>j", "<space>s" },
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    opts = {},
-  },
+  { 'lebakasable/mochi.vim', ft = 'mochi' },
 
-  { "windwp/nvim-autopairs",    opts = {} },
-  { "ethanholz/nvim-lastplace", opts = {} },
-  { "mbbill/undotree" },
-
-  {
-    'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-  },
-
-  {
-    'stevearc/oil.nvim',
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
-  },
-
-  "tpope/vim-fugitive",
-
-  {
-    "williamboman/mason.nvim",
-    dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" },
-    config = function()
-      local lspconfig = require("lspconfig")
-
-      require("mason").setup()
-      require("mason-lspconfig").setup()
-
-      require("mason-lspconfig").setup_handlers({
-        function(server)
-          lspconfig[server].setup({})
-        end,
-      })
-
-      vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
-    end,
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path" },
-    config = function()
-      local cmp = require("cmp")
-
-      cmp.setup({
-        mapping = cmp.mapping.preset.insert({
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-        }, {
-          { name = "buffer" },
-          { name = "path" },
-        }),
-      })
-    end,
-  },
-
-  "Exafunction/codeium.vim",
+  { 'lebakasable/boba.vim', ft = 'boba' },
 })
 
-vim.keymap.set("v", "<a-down>", ":m '>+1<cr>gv=gv")
-vim.keymap.set("v", "<a-up>", ":m '<-2<cr>gv=gv")
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<c-d>", "<c-d>zz")
-vim.keymap.set("n", "<c-u>", "<c-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+vim.cmd.colorscheme 'catppuccin'
 
-vim.keymap.set("n", "U", "<c-r>")
-vim.keymap.set("n", "<esc>", ":noh<cr>", { silent = true })
-vim.keymap.set("n", "<tab>", ":bn<cr>", { silent = true })
-vim.keymap.set("n", "<s-tab>", ":bp<cr>", { silent = true })
-vim.keymap.set("n", "<leader>x", ":bd<cr>", { silent = true })
+local keymaps = {
+  n = {
+    ['<esc>'] = {'noh', true},
+    ['<S-u>'] = {'<C-r>', true},
+    ['<tab>'] = {'bn', true},
+    ['<S-tab>'] = {'bp', true},
+    
+    ['<leader>'] = {
+      f = {
+        f = 'Files',
+        b = 'Buffers',
+        l = 'Lines',
+      },
+ 
+      x = 'bd',
+      o = 'Oil',
 
-vim.keymap.set("n", "<leader>u", ":UndotreeToggle<cr>")
+      g = {
+        g = 'G',
+        i = 'G init',
+        s = 'G status',
+        f = 'G fetch',
+        p = 'G push',
+        P = 'G pull',
+      },
+    },
+  },
+}
 
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files<cr>")
-vim.keymap.set("n", "<leader>fb", ":Telescope buffers<cr>")
-vim.keymap.set("n", "<leader>fm", ":Telescope man_pages<cr>")
-vim.keymap.set("n", "<leader>o", ":Oil<cr>")
+function parse_map(mode, mapped, to)
+  if type(to) == 'table' then
+    if not to[1] then
+      for sm, st in pairs(to) do
+        parse_map(mode, mapped..sm, st)
+      end
+    else
+      local nto = to[1]:byte(1) == 60 and to[1] or ':'..to[1]..'<cr>'
+      vim.keymap.set(mode, mapped, nto, { silent = to[2] })
+    end
+  else
+    local to = to[1] == '<' and to or ':'..to..'<cr>'
+    vim.keymap.set(mode, mapped, to)
+  end
+end
 
-vim.keymap.set("n", "<leader>gs", ":Git<cr>")
-vim.keymap.set("n", "<leader>gp", ":Git push<cr>")
+for mode, maps in pairs(keymaps) do
+  for mapped, to in pairs(maps) do
+    parse_map(mode, mapped, to)
+  end
+end
 
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function() vim.highlight.on_yank() end,
+})
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
-    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-    local opts = { buffer = ev.buf }
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-    vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set("n", "<leader>wl", function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-    vim.keymap.set("n", "<leader>f", function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
+vim.api.nvim_create_autocmd('BufReadPost', {
+  pattern = "*.php",
+  callback = function()
+    vim.o.errorformat = "%m in %f on line %l"
   end,
 })
-
-vim.cmd [[
-augroup highlight_yank
-  autocmd!
-  au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=200}
-augroup END
-]]
